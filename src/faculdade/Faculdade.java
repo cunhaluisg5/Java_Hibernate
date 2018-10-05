@@ -12,6 +12,7 @@ import classes.Professor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
@@ -48,9 +49,26 @@ public class Faculdade {
         Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         s.beginTransaction();
         
-        Adicionar(s, aluno, professor, disciplina, matricula);
+        //Adicionar(s, aluno, professor, disciplina, matricula);
+        
+        Listar(s);
         
         s.getTransaction().commit();
+    }
+
+    private static void Listar(Session s) throws ParseException {
+        List<Matricula> lista = (List<Matricula>) s.createQuery("From Matricula").list();
+        
+        for(Matricula m : lista){
+            System.out.println("Nome da Disciplina: " + m.getDisciplina().getDisNome());
+            System.out.println("Turno da Disciplina: " + m.getDisciplina().getDisTurno());
+            System.out.println("Nome do Professor: " + m.getProfessor().getProNome());
+            System.out.println("CPF do Professor: " + m.getProfessor().getProCpf());
+            System.out.println("Data de Nascimento do Professor: " + converteString(m.getProfessor().getProNascimento()));
+            System.out.println("Nome do Aluno: " + m.getAluno().getAluNome());
+            System.out.println("CPF do Aluno: " + m.getAluno().getAluCpf());
+            System.out.println("Data de Nascimento do Aluno: " + converteString(m.getAluno().getAluNascimento()));
+        }
     }
 
     private static void Adicionar(Session s, Aluno aluno, Professor professor, Disciplina disciplina, Matricula matricula) {
@@ -63,6 +81,11 @@ public class Faculdade {
     private static Date converteDate(String str) throws ParseException {
         SimpleDateFormat fm = new SimpleDateFormat("dd/MM/yyyy");
         return fm.parse(str);
+    }
+    
+    private static String converteString(Date data) throws ParseException {
+        SimpleDateFormat fm = new SimpleDateFormat("dd/MM/yyyy");
+        return fm.format(data);
     }
     
 }
