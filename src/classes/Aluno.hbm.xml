@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05/10/2018 12:32:59 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="classes.Aluno" table="aluno" catalog="faculdade" optimistic-lock="version">
+        <id name="aluId" type="java.lang.Integer">
+            <column name="alu_id" />
+            <generator class="identity" />
+        </id>
+        <property name="aluNome" type="string">
+            <column name="alu_nome" length="80" not-null="true" />
+        </property>
+        <property name="aluCpf" type="string">
+            <column name="alu_cpf" length="20" not-null="true" />
+        </property>
+        <property name="aluNascimento" type="date">
+            <column name="alu_nascimento" length="10" not-null="true" />
+        </property>
+        <set name="matriculas" table="matricula" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mat_alu_id" not-null="true" />
+            </key>
+            <one-to-many class="classes.Matricula" />
+        </set>
+    </class>
+</hibernate-mapping>

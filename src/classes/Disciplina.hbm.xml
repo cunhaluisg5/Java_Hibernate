@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05/10/2018 12:32:59 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="classes.Disciplina" table="disciplina" catalog="faculdade" optimistic-lock="version">
+        <id name="disId" type="java.lang.Integer">
+            <column name="dis_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="professor" class="classes.Professor" fetch="select">
+            <column name="dis_pro_id" not-null="true" />
+        </many-to-one>
+        <property name="disNome" type="string">
+            <column name="dis_nome" length="80" not-null="true" />
+        </property>
+        <property name="disTurno" type="string">
+            <column name="dis_turno" length="20" not-null="true" />
+        </property>
+        <set name="matriculas" table="matricula" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mat_dis_id" not-null="true" />
+            </key>
+            <one-to-many class="classes.Matricula" />
+        </set>
+    </class>
+</hibernate-mapping>
